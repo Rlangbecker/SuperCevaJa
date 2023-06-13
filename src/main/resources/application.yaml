@@ -1,0 +1,4 @@
+server:
+  servlet:
+    context-path: /cevaja-db-poc
+  port: 8081
