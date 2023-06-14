@@ -2,3 +2,17 @@ server:
   servlet:
     context-path: /cevaja-db-poc
   port: 8081
+
+  spring:
+  datasource:
+  url: jdbc:h2:mem:pocdb
+  driver-class-name: org.h2.Driver
+  username: admin
+  password: 123456
+  jpa:
+  database-platform: org.hibernate.dialect.H2Dialect
+  defer-datasource-initialization: true
+  show-sql: true
+  h2:
+  console:
+  enabled: true
