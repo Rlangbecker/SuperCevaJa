@@ -1,6 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.model.enums;
 
-public enum TipoPagamento {
+public enum TipoPayment {
 
     DINHEIRO,
     PIX,

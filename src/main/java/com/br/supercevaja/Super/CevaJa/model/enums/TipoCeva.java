@@ -1,6 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.model.enums;
 
-public enum TipoCerveja {
+public enum TipoCeva {
 
     PILSEN,
     BOCK,

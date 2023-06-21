@@ -1,6 +1,7 @@
 package com.br.supercevaja.Super.CevaJa.model;
 
-import com.br.supercevaja.Super.CevaJa.model.enums.TipoPagamento;
+
+import com.br.supercevaja.Super.CevaJa.model.enums.TipoPayment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +26,5 @@ public class Pedido {
     @Column
     private BigDecimal valorFinal;
     @Column
-    private TipoPagamento tipoPagamento;
+    private TipoPayment tipoPagamento;
 }

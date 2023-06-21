@@ -1,6 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.model;
 
-import com.br.supercevaja.Super.CevaJa.model.enums.TipoCerveja;
+import com.br.supercevaja.Super.CevaJa.model.enums.TipoCeva;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class Cerveja {
     @Column
     private String nome;
     @Column
-    private TipoCerveja tipoCerveja;
+    private TipoCeva tipoCerveja;
     @Column
     private BigDecimal valor;
     @Column
