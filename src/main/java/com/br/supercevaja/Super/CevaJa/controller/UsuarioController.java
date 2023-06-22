@@ -1,5 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.controller;
 
+import com.br.supercevaja.Super.CevaJa.dto.UsuarioCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.service.UsuarioService;
@@ -18,18 +19,18 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
 
-    @PostMapping
-    public ResponseEntity<Usuario> criarUsuario(@RequestBody Usuario usuario){
-        return new ResponseEntity<>(usuarioService.criarUsuario(usuario), HttpStatus.OK);
-    }
+//    @PostMapping
+//    public ResponseEntity<UsuarioCreateDto> criarUsuario(@RequestBody UsuarioCreateDto usuarioCreateDto){
+//        return new ResponseEntity<>(usuarioService.criarUsuario(usuario), HttpStatus.OK);
+//    }
     @GetMapping("/{id}")
     public Optional<Usuario> buscarPorId(@PathVariable("id") Integer id) {
         return usuarioService.buscarUsuarioPorId(id);
     }
-    @PutMapping
-    public ResponseEntity<UsuarioDto> editar(@RequestBody UsuarioDto usuarioDto) {
+    @PutMapping("/editByName")
+    public ResponseEntity<UsuarioDto> editarPorNome(@RequestBody UsuarioDto usuarioDto) {
         usuarioService.alterarPorUserName(usuarioDto);
-        return null;
+        return ResponseEntity.accepted().build();
     }
     @DeleteMapping("/{id}")
     public ResponseEntity deletar(@PathVariable("id") Integer id) {
