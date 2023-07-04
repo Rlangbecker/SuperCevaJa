@@ -25,11 +25,11 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.criarUsuario(usuarioCreateDto), HttpStatus.OK);
     }
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioDto> buscarPorId(@PathVariable("idUsuario") Integer id) throws Exception {
+    public ResponseEntity<UsuarioDto> buscarPorId(@PathParam("idUsuario") Integer id) throws Exception {
         return new ResponseEntity<>(usuarioService.buscarUsuarioPorId(id),HttpStatus.OK);
     }
     @PutMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioDto> editarPorNome(@PathParam ("idUsuario") Integer idUsuario, @RequestBody UsuarioCreateDto usuarioCreateDto) throws Exception {
+    public ResponseEntity<UsuarioDto> editarPorId(@PathParam ("idUsuario") Integer idUsuario, @RequestBody UsuarioCreateDto usuarioCreateDto) throws Exception {
         usuarioService.alterarPorUserId(idUsuario,usuarioCreateDto);
         return ResponseEntity.accepted().build();
     }
