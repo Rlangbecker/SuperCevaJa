@@ -39,4 +39,6 @@ public class UsuarioService {
     public void deletarPorId(Integer id) {
         usuarioRepository.deleteById(id);
     }
+
+
 }
