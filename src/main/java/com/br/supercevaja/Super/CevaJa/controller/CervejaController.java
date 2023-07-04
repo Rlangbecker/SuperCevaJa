@@ -1,5 +1,7 @@
 package com.br.supercevaja.Super.CevaJa.controller;
 
+import com.br.supercevaja.Super.CevaJa.dto.CervejaCreateDto;
+import com.br.supercevaja.Super.CevaJa.dto.CervejaDto;
 import com.br.supercevaja.Super.CevaJa.model.Cerveja;
 import com.br.supercevaja.Super.CevaJa.service.CervejaService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +17,12 @@ public class CervejaController {
     private final CervejaService cervejaService;
 
     @PostMapping
-    public ResponseEntity<Cerveja> cadastrarCerveja(Cerveja cerveja){
-        return new ResponseEntity<>(cervejaService.cadastrarCerveja(cerveja), HttpStatus.OK);
+    public ResponseEntity<CervejaDto> cadastrarCerveja(@RequestBody CervejaCreateDto cervejaCreateDto){
+        return new ResponseEntity<>(cervejaService.cadastrarCerveja(cervejaCreateDto), HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity buscarPorId(@PathVariable("id") Integer id) {
-//        return ResponseEntity<>(cervejaService.buscarPorId(id)).get();
-//    }
+    @GetMapping
+    public ResponseEntity<CervejaDto> buscarPorId(@PathVariable("id") Integer id) throws Exception {
+        return new ResponseEntity<>(cervejaService.buscarPorId(id), HttpStatus.OK);
+    }
 }

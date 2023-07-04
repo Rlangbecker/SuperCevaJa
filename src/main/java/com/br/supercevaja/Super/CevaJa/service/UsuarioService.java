@@ -46,4 +46,6 @@ public class UsuarioService {
                         .orElseThrow(()-> new Exception("Usuario não encontrado!"));
         usuarioRepository.deleteById(id);
     }
+
+
 }
