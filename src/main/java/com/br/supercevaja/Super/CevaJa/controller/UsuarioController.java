@@ -4,6 +4,7 @@ import com.br.supercevaja.Super.CevaJa.dto.UsuarioCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.service.UsuarioService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,21 +20,21 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
 
-//    @PostMapping
-//    public ResponseEntity<UsuarioCreateDto> criarUsuario(@RequestBody UsuarioCreateDto usuarioCreateDto){
-//        return new ResponseEntity<>(usuarioService.criarUsuario(usuario), HttpStatus.OK);
-//    }
-    @GetMapping("/{id}")
-    public Optional<Usuario> buscarPorId(@PathVariable("id") Integer id) {
-        return usuarioService.buscarUsuarioPorId(id);
+    @PostMapping
+    public ResponseEntity<UsuarioCreateDto> criarUsuario(@RequestBody UsuarioCreateDto usuarioCreateDto){
+        return new ResponseEntity<>(usuarioService.criarUsuario(usuarioCreateDto), HttpStatus.OK);
     }
-    @PutMapping("/editByName")
-    public ResponseEntity<UsuarioDto> editarPorNome(@RequestBody UsuarioDto usuarioDto) {
-        usuarioService.alterarPorUserName(usuarioDto);
+    @GetMapping("/{idUsuario}")
+    public ResponseEntity<UsuarioDto> buscarPorId(@PathVariable("idUsuario") Integer id) throws Exception {
+        return new ResponseEntity<>(usuarioService.buscarUsuarioPorId(id),HttpStatus.OK);
+    }
+    @PutMapping("/{idUsuario}")
+    public ResponseEntity<UsuarioDto> editarPorNome(@PathParam ("idUsuario") Integer idUsuario, @RequestBody UsuarioCreateDto usuarioCreateDto) throws Exception {
+        usuarioService.alterarPorUserId(idUsuario,usuarioCreateDto);
         return ResponseEntity.accepted().build();
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity deletar(@PathVariable("id") Integer id) {
+    @DeleteMapping("/{idUsuario}")
+    public ResponseEntity deletar(@PathVariable("idUsuario") Integer id) throws Exception {
         usuarioService.deletarPorId(id);
         return ResponseEntity.accepted().build();
     }

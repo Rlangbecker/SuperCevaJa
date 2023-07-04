@@ -1,9 +1,11 @@
 package com.br.supercevaja.Super.CevaJa.dto;
 
+import lombok.Data;
+
 import java.time.LocalDate;
 
-public record UsuarioCreateDto(
-        String username,
-        LocalDate dataNascimento
-) {
+@Data
+public class UsuarioCreateDto {
+    private String username;
+    private LocalDate dataNascimento;
 }

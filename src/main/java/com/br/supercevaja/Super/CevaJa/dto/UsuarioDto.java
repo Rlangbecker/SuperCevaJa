@@ -1,13 +1,11 @@
 package com.br.supercevaja.Super.CevaJa.dto;
 
 import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDate;
 
-@Builder
-public record UsuarioDto(
-        Integer idUsuario,
-        String username,
-        LocalDate dataNascimento
-) {
+@Data
+public class UsuarioDto extends UsuarioCreateDto{
+    private Integer idUsuario;
 }
