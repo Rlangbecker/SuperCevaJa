@@ -5,38 +5,42 @@ import com.br.supercevaja.Super.CevaJa.dto.UsuarioCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.repository.UsuarioRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final ObjectMapper objectMapper;
 
-    // To do Dto
-//    public UsuarioDto criarUsuario(UsuarioCreateDto usuarioCreateDto){
-//        Usuario usuario =
-//                usuarioRepository.save(usuarioCreateDto);
-//    }
-
-    public Optional<Usuario> buscarUsuarioPorId(Integer id) {
-        if (id == 0) {
-            throw new RuntimeException("Id inexistente");
-        }
-        return usuarioRepository.findById(id);
+    public UsuarioDto criarUsuario(UsuarioCreateDto usuarioCreateDto) {
+        Usuario usuarioEntrada = objectMapper.convertValue(usuarioCreateDto, Usuario.class);
+        Usuario usuarioRetorno = usuarioRepository.save(usuarioEntrada);
+        return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);
     }
 
-    public Usuario alterarPorUserName(UsuarioDto usuarioDto) {
-        Usuario usuarioParaAlterar = usuarioRepository.findByUsername(usuarioDto.username());
-        Usuario usuario = new Usuario();
-        usuario.setUsername(usuarioDto.username());
-        usuario.setDataNascimento(usuarioDto.dataNascimento());
-        return usuarioRepository.save(usuario);
+    public UsuarioDto buscarUsuarioPorId(Integer id) throws Exception {
+
+        Usuario usuarioRetorno = usuarioRepository.findById(id)
+                .orElseThrow(() -> new Exception("Usuario não encontrado!"));
+        return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);
     }
-    public void deletarPorId(Integer id) {
+
+    public UsuarioDto alterarPorUserId(Integer idUsuario, UsuarioCreateDto usuarioCreateDto) throws Exception {
+        Usuario usuarioRetorno = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new Exception("Usuario não encotrado por este ID"));
+        usuarioRetorno.setUsername(usuarioCreateDto.getUsername());
+        usuarioRetorno.setDataNascimento(usuarioCreateDto.getDataNascimento());
+        UsuarioDto usuarioDto = objectMapper.convertValue(usuarioRepository.save(usuarioRetorno), UsuarioDto.class);
+        return usuarioDto;
+    }
+
+    public void deletarPorId(Integer id) throws Exception {
+        usuarioRepository.findById(id)
+                        .orElseThrow(()-> new Exception("Usuario não encontrado!"));
         usuarioRepository.deleteById(id);
     }
 
