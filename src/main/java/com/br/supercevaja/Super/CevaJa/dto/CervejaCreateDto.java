@@ -10,11 +10,9 @@ import java.math.BigDecimal;
 @Setter
 public class CervejaCreateDto {
 
-    String nome;
+    private String nome;
 
-    TipoCeva tipoCeva;
+    private BigDecimal valor;
 
-    BigDecimal valor;
-
-    Integer quantidade;
+    private Integer quantidade;
 }

@@ -15,6 +15,17 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer idUsuario;
+
+    @Column
+    private String nome;
+
+    @Column
+    private String sobrenome;
+
+    @Column
+    private String cpf;
+    @Column
+    private String senha;
     @Column
     private String username;
     @Column

@@ -23,7 +23,6 @@ public class UsuarioService {
     }
 
     public UsuarioDto buscarUsuarioPorId(Integer id) throws Exception {
-
         Usuario usuarioRetorno = usuarioRepository.findById(id)
                 .orElseThrow(() -> new Exception("Usuario não encontrado!"));
         return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);

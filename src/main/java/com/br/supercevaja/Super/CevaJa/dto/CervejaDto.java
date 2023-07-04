@@ -10,13 +10,13 @@ import java.math.BigDecimal;
 @Setter
 public class CervejaDto {
 
-    Integer idCerveja;
+    private Integer idCerveja;
 
-    String nome;
+    private String nome;
 
-    TipoCeva tipoCeva;
+    private String tipoCeva;
 
-    BigDecimal valor;
+    private BigDecimal valor;
 
-    Integer quantidade;
+    private Integer quantidade;
 }

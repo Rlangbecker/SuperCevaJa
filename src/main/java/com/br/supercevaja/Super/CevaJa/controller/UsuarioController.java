@@ -21,18 +21,20 @@ public class UsuarioController {
 
 
     @PostMapping
-    public ResponseEntity<UsuarioCreateDto> criarUsuario(@RequestBody UsuarioCreateDto usuarioCreateDto){
+    public ResponseEntity<UsuarioCreateDto> criarUsuario(@RequestBody UsuarioCreateDto usuarioCreateDto) {
         return new ResponseEntity<>(usuarioService.criarUsuario(usuarioCreateDto), HttpStatus.OK);
     }
+
     @GetMapping("/{idUsuario}")
     public ResponseEntity<UsuarioDto> buscarPorId(@PathParam("idUsuario") Integer id) throws Exception {
-        return new ResponseEntity<>(usuarioService.buscarUsuarioPorId(id),HttpStatus.OK);
+        return new ResponseEntity<>(usuarioService.buscarUsuarioPorId(id), HttpStatus.OK);
     }
+
     @PutMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioDto> editarPorId(@PathParam ("idUsuario") Integer idUsuario, @RequestBody UsuarioCreateDto usuarioCreateDto) throws Exception {
-        usuarioService.alterarPorUserId(idUsuario,usuarioCreateDto);
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<UsuarioDto> editarPorId(@PathParam("idUsuario") Integer idUsuario, @RequestBody UsuarioCreateDto usuarioCreateDto) throws Exception {
+        return new ResponseEntity<>(usuarioService.alterarPorUserId(idUsuario,usuarioCreateDto),HttpStatus.OK);
     }
+
     @DeleteMapping("/{idUsuario}")
     public ResponseEntity deletar(@PathVariable("idUsuario") Integer id) throws Exception {
         usuarioService.deletarPorId(id);
