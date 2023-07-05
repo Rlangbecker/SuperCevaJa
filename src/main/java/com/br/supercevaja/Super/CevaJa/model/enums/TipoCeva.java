@@ -2,11 +2,24 @@ package com.br.supercevaja.Super.CevaJa.model.enums;
 
 public enum TipoCeva {
 
-    PILSEN,
-    BOCK,
-    IPA,
-    APA,
-    WEISS,
-    STOUT
+    PILSEN("PILSEN"),
+    BOCK("BOCK"),
+    IPA("IPA"),
+    APA("APA"),
+    WEISS("WEISS"),
+    STOUT("STOUT");
 
+    private String descricao;
+
+    TipoCeva(String descricao) {
+        this.descricao = descricao;
+    }
+    public String getDescricao() {
+        return descricao;
+    }
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
 }

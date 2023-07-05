@@ -19,6 +19,7 @@ public class Cerveja {
     @Column
     private String nome;
     @Column
+    @Enumerated(EnumType.STRING)
     private TipoCeva tipoCerveja;
     @Column
     private BigDecimal valor;

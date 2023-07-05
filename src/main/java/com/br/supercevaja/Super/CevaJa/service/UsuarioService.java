@@ -31,8 +31,11 @@ public class UsuarioService {
     public UsuarioDto alterarPorUserId(Integer idUsuario, UsuarioCreateDto usuarioCreateDto) throws Exception {
         Usuario usuarioRetorno = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new Exception("Usuario não encotrado por este ID"));
+
         usuarioRetorno.setUsername(usuarioCreateDto.getUsername());
+
         usuarioRetorno.setDataNascimento(usuarioCreateDto.getDataNascimento());
+
         UsuarioDto usuarioDto = objectMapper.convertValue(usuarioRepository.save(usuarioRetorno), UsuarioDto.class);
         return usuarioDto;
     }
