@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/supercevaja/api/v1/pedidos")
 public class PedidoController {
 
-    private final PedidoService pedidoService;
+//    private final PedidoService pedidoService;
 
 //    @PostMapping
 //    public ResponseEntity<Pedido> criarPedido(Pedido pedido){

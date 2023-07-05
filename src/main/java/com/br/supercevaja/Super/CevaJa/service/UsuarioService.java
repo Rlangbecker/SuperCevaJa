@@ -59,5 +59,14 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+//    public Usuario validarUsuario(Integer idUsuario) throws Exception {
+//        UsuarioDto usuarioDto = buscarUsuarioPorId(idUsuario);
+//        if(!buscarPorUsername(usuarioDto.getUsername())){
+//            throw new Exception("Usuario com este username não encontrado!");
+//        }
+//    }
+
+
+
 
 }
