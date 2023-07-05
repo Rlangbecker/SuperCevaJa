@@ -14,7 +14,7 @@ public enum TipoCeva {
     TipoCeva(String descricao) {
         this.descricao = descricao;
     }
-    public TipoCeva getDescricao() {
+    public String getDescricao() {
         return descricao;
     }
 

@@ -1,7 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.model;
 
 
-import com.br.supercevaja.Super.CevaJa.model.enums.TipoPayment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +24,4 @@ public class Pedido {
     private List<Cerveja> cervejas;
     @Column
     private BigDecimal valorFinal;
-    @Column
-    private TipoPayment tipoPagamento;
 }

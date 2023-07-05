@@ -1,5 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.service;
 
+import com.br.supercevaja.Super.CevaJa.model.integration.TempsResponse;
 import com.br.supercevaja.Super.CevaJa.model.integration.WeatherResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -19,8 +20,8 @@ public class WeatherIntegrationService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public WeatherResponse findByName(String name) {
+    public TempsResponse findByName(String name) {
         String urlCompleta = this.uri + "/" + name;
-        return this.restTemplate.getForObject(urlCompleta, WeatherResponse.class);
+        return this.restTemplate.getForObject(urlCompleta, TempsResponse.class);
     }
 }
