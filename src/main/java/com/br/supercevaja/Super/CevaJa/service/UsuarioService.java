@@ -28,8 +28,7 @@ public class UsuarioService {
     }
 
     public Boolean buscarPorUsername(String username) {
-        Optional<Usuario> usuario = usuarioRepository.findByUsername(username);
-        if(usuario.isPresent()){
+        if(usuarioRepository.findByUsername(username).isPresent()){
             return true;
         } else {
             return false;
