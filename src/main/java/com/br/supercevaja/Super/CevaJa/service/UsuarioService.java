@@ -9,7 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,8 @@ public class UsuarioService {
         }
     }
 
+
+
     public UsuarioDto buscarUsuarioPorId(Integer id) throws Exception {
         Usuario usuarioRetorno = usuarioRepository.findById(id)
                 .orElseThrow(() -> new Exception("Usuario não encontrado!"));
@@ -59,12 +62,27 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-//    public Usuario validarUsuario(Integer idUsuario) throws Exception {
-//        UsuarioDto usuarioDto = buscarUsuarioPorId(idUsuario);
-//        if(!buscarPorUsername(usuarioDto.getUsername())){
-//            throw new Exception("Usuario com este username não encontrado!");
-//        }
-//    }
+    public Usuario validarUsuario(Integer idUsuario) throws Exception {
+        UsuarioDto usuarioDto = buscarUsuarioPorId(idUsuario);
+        if(!buscarPorUsername(usuarioDto.getUsername())){
+            throw new Exception("Usuario com este username não encontrado!");
+        }
+        Boolean isMaior = isMaiorDeIdade(usuarioDto);
+        if (!isMaior) {
+            throw new RuntimeException("É menor de idade");
+        }
+
+        Usuario usuario = objectMapper.convertValue(usuarioDto, Usuario.class);
+        return usuario;
+    }
+
+    public Boolean isMaiorDeIdade (UsuarioDto usuarioDto) {
+        long dateDiff = ChronoUnit.YEARS.between(LocalDate.now(), usuarioDto.getDataNascimento());
+        if (dateDiff < 18) {
+            return false;
+        }
+        return true;
+    }
 
 
 
