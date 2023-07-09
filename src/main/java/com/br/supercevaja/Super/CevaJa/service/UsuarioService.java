@@ -16,13 +16,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final ObjectMapper objectMapper;
-    
+
 
     public UsuarioDto criarUsuario(UsuarioCreateDto usuarioCreateDto) throws RegraDeNegocioException {
 
@@ -67,6 +68,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+
     public void deletarPorUsername(String username) throws RegraDeNegocioException {
         Usuario usuarioRetorno = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new RegraDeNegocioException("Usuario com username " + username + " não encontrado!"));
@@ -77,7 +79,7 @@ public class UsuarioService {
 
     public UsuarioDto validarUsuario(String username) throws RegraDeNegocioException {
         Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(()-> new RegraDeNegocioException("Usuario com este username não encontrado!"));
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario com este username não encontrado!"));
 
         Long idade = ChronoUnit.YEARS.between(LocalDate.now(), usuario.getDataNascimento());
         if (idade > 18) {
@@ -86,3 +88,4 @@ public class UsuarioService {
         return objectMapper.convertValue(usuario, UsuarioDto.class);
     }
 }
+

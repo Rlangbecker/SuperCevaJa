@@ -1,12 +1,12 @@
 package com.br.supercevaja.Super.CevaJa.service;
 
+
 import com.br.supercevaja.Super.CevaJa.dto.cervejaDto.CervejaCreatePedidoDto;
 import com.br.supercevaja.Super.CevaJa.dto.cervejaDto.CervejaDto;
 import com.br.supercevaja.Super.CevaJa.dto.pedidoDto.PedidoCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.pedidoDto.PedidoDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
-import com.br.supercevaja.Super.CevaJa.model.Cerveja;
 import com.br.supercevaja.Super.CevaJa.model.Pedido;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.model.integration.TempsResponse;
@@ -29,7 +29,6 @@ public class PedidoService {
     private final UsuarioService usuarioService;
 
     private final CervejaService cervejaService;
-
     private final WeatherIntegrationService weatherIntegrationService;
     private final ObjectMapper objectMapper;
 
@@ -78,8 +77,10 @@ public class PedidoService {
         return pedidoDto;
     }
 
+
     public BigDecimal retornarValorComDesconto(CervejaCreatePedidoDto cervejaCreatePedidoDto) throws Exception {
         BigDecimal valorTotal = cervejaService.calcularValorTotal(cervejaCreatePedidoDto);
+
         if (cervejaCreatePedidoDto.getQuantidade() > 10) {
             BigDecimal valorTemporario = valorTotal.divide(BigDecimal.valueOf(100)).multiply(BigDecimal.valueOf(10));
             valorTotal = valorTotal.subtract(valorTemporario);
@@ -98,4 +99,5 @@ public class PedidoService {
             return valor;
         }
     }
+
 }
