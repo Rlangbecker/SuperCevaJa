@@ -1,6 +1,5 @@
-package com.br.supercevaja.Super.CevaJa.dto;
+package com.br.supercevaja.Super.CevaJa.dto.cervejaDto;
 
-import com.br.supercevaja.Super.CevaJa.model.enums.TipoCeva;
 import lombok.Getter;
 import lombok.Setter;
 

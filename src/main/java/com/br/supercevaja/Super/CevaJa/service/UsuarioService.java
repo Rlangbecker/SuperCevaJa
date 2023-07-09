@@ -1,15 +1,20 @@
 package com.br.supercevaja.Super.CevaJa.service;
 
 
-import com.br.supercevaja.Super.CevaJa.dto.UsuarioCreateDto;
-import com.br.supercevaja.Super.CevaJa.dto.UsuarioDto;
+import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioCreateDto;
+import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioDto;
+import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioEditDto;
+import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,56 +22,67 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final ObjectMapper objectMapper;
+    
 
-    public UsuarioDto criarUsuario(UsuarioCreateDto usuarioCreateDto) throws Exception {
-        if(buscarPorUsername(usuarioCreateDto.getUsername())){
-            throw new Exception("Username já está em uso, por favor escolha outro");
+    public UsuarioDto criarUsuario(UsuarioCreateDto usuarioCreateDto) throws RegraDeNegocioException {
+
+        if (buscarPorUsername(usuarioCreateDto.getUsername())) {
+            throw new RegraDeNegocioException("Username já está em uso, por favor escolha outro");
         }
         Usuario usuarioEntrada = objectMapper.convertValue(usuarioCreateDto, Usuario.class);
+        usuarioEntrada.setAtivo(true);
         Usuario usuarioRetorno = usuarioRepository.save(usuarioEntrada);
         return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);
     }
 
-    public Boolean buscarPorUsername(String username) {
-        if(usuarioRepository.findByUsername(username).isPresent()){
-            return true;
-        } else {
-            return false;
-        }
+    private Boolean buscarPorUsername(String username) {
+        return usuarioRepository.findByUsername(username).isPresent();
     }
 
-    public UsuarioDto buscarUsuarioPorId(Integer id) throws Exception {
+    public List<UsuarioDto> buscarTodosUsuarios() {
+        return usuarioRepository.findAll().stream()
+                .map(usuario -> objectMapper.convertValue(usuario, UsuarioDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public UsuarioDto buscarUsuarioPorId(Integer id) throws RegraDeNegocioException {
         Usuario usuarioRetorno = usuarioRepository.findById(id)
-                .orElseThrow(() -> new Exception("Usuario não encontrado!"));
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado!"));
         return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);
     }
 
-    public UsuarioDto alterarPorUserId(Integer idUsuario, UsuarioCreateDto usuarioCreateDto) throws Exception {
+    public UsuarioDto alterarPorUserId(Integer idUsuario, UsuarioEditDto usuarioEditDto) throws RegraDeNegocioException {
         Usuario usuarioRetorno = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new Exception("Usuario não encotrado por este ID"));
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario não encotrado por este ID"));
 
-        usuarioRetorno.setUsername(usuarioCreateDto.getUsername());
+        usuarioRetorno.setNome(usuarioEditDto.getNome());
+        usuarioRetorno.setSobrenome(usuarioEditDto.getSobrenome());
 
-        usuarioRetorno.setDataNascimento(usuarioCreateDto.getDataNascimento());
-
-        UsuarioDto usuarioDto = objectMapper.convertValue(usuarioRepository.save(usuarioRetorno), UsuarioDto.class);
-        return usuarioDto;
+        return objectMapper.convertValue(usuarioRepository.save(usuarioRetorno), UsuarioDto.class);
     }
 
-    public void deletarPorId(Integer id) throws Exception {
+    public void deletarPorId(Integer id) throws RegraDeNegocioException {
         usuarioRepository.findById(id)
-                .orElseThrow(() -> new Exception("Usuario não encontrado!"));
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario não encontrado!"));
         usuarioRepository.deleteById(id);
     }
 
-//    public Usuario validarUsuario(Integer idUsuario) throws Exception {
-//        UsuarioDto usuarioDto = buscarUsuarioPorId(idUsuario);
-//        if(!buscarPorUsername(usuarioDto.getUsername())){
-//            throw new Exception("Usuario com este username não encontrado!");
-//        }
-//    }
+    public void deletarPorUsername(String username) throws RegraDeNegocioException {
+        Usuario usuarioRetorno = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario com username " + username + " não encontrado!"));
+        usuarioRetorno.setAtivo(false);
+        usuarioRepository.save(usuarioRetorno);
 
+    }
 
+    public UsuarioDto validarUsuario(String username) throws RegraDeNegocioException {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(()-> new RegraDeNegocioException("Usuario com este username não encontrado!"));
 
-
+        Long idade = ChronoUnit.YEARS.between(LocalDate.now(), usuario.getDataNascimento());
+        if (idade > 18) {
+            throw new RegraDeNegocioException("Não é possível adicionar um pedido para um Usuário menor de idade!");
+        }
+        return objectMapper.convertValue(usuario, UsuarioDto.class);
+    }
 }

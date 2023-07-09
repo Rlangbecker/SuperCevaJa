@@ -1,6 +1,5 @@
-package com.br.supercevaja.Super.CevaJa.dto;
+package com.br.supercevaja.Super.CevaJa.dto.cervejaDto;
 
-import com.br.supercevaja.Super.CevaJa.model.enums.TipoCeva;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +13,9 @@ public class CervejaDto {
 
     private String nome;
 
-    private String tipoCeva;
-
     private BigDecimal valor;
 
     private Integer quantidade;
+
+    private Boolean ativo;
 }

@@ -20,8 +20,10 @@ public class WeatherIntegrationService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public TempsResponse findByName(String name) {
-        String urlCompleta = this.uri + "/" + name;
-        return this.restTemplate.getForObject(urlCompleta, TempsResponse.class);
+    public TempsResponse buscarTemperaturaAtual() {
+        String urlCompleta = this.uri;
+        WeatherResponse weatherResponse =  this.restTemplate.getForObject(urlCompleta, WeatherResponse.class);
+        TempsResponse tempsResponse = weatherResponse.getCurrent();
+        return tempsResponse;
     }
 }

@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface CervejaRepository extends JpaRepository<Cerveja, Integer> {
-    Optional<Cerveja> findCervejaByTipoCerveja(String tipoCerveja);
+
+    Optional<Cerveja> findCervejaByNome(String nome);
+
 }

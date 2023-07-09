@@ -31,7 +31,14 @@ public class Usuario {
     @Column
     private LocalDate dataNascimento;
 
+    @Column
+    private Boolean ativo;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
     private List<Pedido> pedidos;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idLogin")
+    private Login login;
 
 }

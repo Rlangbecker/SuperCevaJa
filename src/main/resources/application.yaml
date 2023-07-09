@@ -1,16 +1,15 @@
 server:
   servlet:
     context-path: /cevaja-db-poc
+  error:
+    include-message: always
   port: 8081
-
-clima-external-api: https://api.weatherapi.com/v1/current.json?key=7b8fa6a32fab4e5aba7230804231605&q=porto_Alegre&aqi=no
-
 spring:
   datasource:
-      url: jdbc:h2:mem:pocdb
-      driver-class-name: org.h2.Driver
-      username: fundatec
-      password: fundatec
+    url: jdbc:h2:mem:pocdb
+    driver-class-name: org.h2.Driver
+    username: fundatec
+    password: fundatec
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
@@ -18,3 +17,4 @@ spring:
   h2:
     console:
       enabled: true
+clima-external-api: https://api.weatherapi.com/v1/current.json?key=7b8fa6a32fab4e5aba7230804231605&q=porto_Alegre&aqi=no

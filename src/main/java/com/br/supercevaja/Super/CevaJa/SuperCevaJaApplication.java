@@ -10,4 +10,5 @@ public class SuperCevaJaApplication {
 		SpringApplication.run(SuperCevaJaApplication.class, args);
 	}
 
+
 }
