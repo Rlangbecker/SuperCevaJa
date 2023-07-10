@@ -97,5 +97,10 @@ public class UsuarioService {
         return objectMapper.convertValue(usuario, UsuarioDto.class);
     }
 
+    public Usuario buscarUsuarioPorUsername(String username) throws RegraDeNegocioException {
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(()->new RegraDeNegocioException("Usuario com este username não encontrado!"));
+    }
+
 }
 

@@ -26,9 +26,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/supercevaja/api/v1/usuarios").permitAll()
                 .requestMatchers("/supercevaja/api/v1/auth").permitAll()
-                .requestMatchers("/supercevaja/api/v1/usuarios/**").hasRole("USER")
-                .requestMatchers("/supercevaja/api/v1/cervejas/**").hasRole("USER")
-                .requestMatchers("/supercevaja/api/v1/pedidos/**").hasRole("USER")
+                .requestMatchers("/supercevaja/api/v1/usuarios/**").permitAll()
+                .requestMatchers("/supercevaja/api/v1/cervejas/**").permitAll()
+                .requestMatchers("/supercevaja/api/v1/pedidos/**").permitAll()
+                .requestMatchers("/supercevaja/h2-console/**").permitAll()
+                .requestMatchers("/supercevaja/**").permitAll()
                 .anyRequest().authenticated();
 
         return http.build();
@@ -64,8 +66,4 @@ public class SecurityConfig {
             }
         };
     }
-
-
-
-
 }

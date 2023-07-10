@@ -1,11 +1,16 @@
 package com.br.supercevaja.Super.CevaJa.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;
@@ -13,6 +18,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 
@@ -21,7 +27,7 @@ import java.util.Date;
 public class JwtUtils {
 
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final String ROLE_CLAIM = "ROLE_USER";
+    private static final String ROLE_CLAIM = "USER";
 
 
     public static String generateToken(String username) throws NoSuchAlgorithmException {
@@ -38,7 +44,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject(username)
-                .claim(ROLE_CLAIM, "ROLE_USER")
+                .claim(ROLE_CLAIM, "USER")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(SignatureAlgorithm.HS256, key)
@@ -58,24 +64,50 @@ public class JwtUtils {
         return claims.getSubject();
     }
 
-    public UsernamePasswordAuthenticationToken validateToken(String token) {
+//    public UsernamePasswordAuthenticationToken validateToken(String token) {
+//
+//        token = token.replace("Bearer ", "");
+//        byte[] keyBytes = SECRET_KEY.getEncoded();
+//        SecretKey key = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
+//        if (token != null) {
+//            Claims body = Jwts.parser()
+//                    .setSigningKey(key)
+//                    .parseClaimsJws(token.replace("Bearer ", ""))
+//                    .getBody();
+//            String user = body.get(Claims.ID, String.class);
+//            if (user != null) {
+//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+//                        new UsernamePasswordAuthenticationToken(user, null, null);
+//                return usernamePasswordAuthenticationToken;
+//            }
+//        }
+//        return null;
+//    }
 
+    public Authentication validateToken(String token) {
         token = token.replace("Bearer ", "");
         byte[] keyBytes = SECRET_KEY.getEncoded();
         SecretKey key = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
         if (token != null) {
-            Claims body = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token.replace("Bearer ", ""))
-                    .getBody();
-            String user = body.get(Claims.ID, String.class);
-            if (user != null) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(user, null, null);
-                return usernamePasswordAuthenticationToken;
+            try {
+                Claims body = Jwts.parser()
+                        .setSigningKey(key)
+                        .parseClaimsJws(token)
+                        .getBody();
+                String user = body.getSubject();
+                if (user != null) {
+                    UserDetails userDetails = new User(user, "", new ArrayList<>());
+                    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return null;
     }
+
+
+
+
 
 }

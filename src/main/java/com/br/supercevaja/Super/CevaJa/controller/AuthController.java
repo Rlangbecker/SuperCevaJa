@@ -21,7 +21,6 @@ import java.security.NoSuchAlgorithmException;
 @RequestMapping("/supercevaja/api/v1/auth")
 public class AuthController {
 
-    private final JwtUtils jwtUtils;
     public final AuthenticationManager authenticationManager;
     @PostMapping
     public String logar(@RequestBody LoginDto loginDto) throws RegraDeNegocioException, NoSuchAlgorithmException, AccessDeniedException {
@@ -38,6 +37,6 @@ public class AuthController {
             throw new AccessDeniedException("Usuário não tem permissão para acessar este recurso.");
         }
 
-      return jwtUtils.generateToken(loginDto.getUsername());
+      return JwtUtils.generateToken(loginDto.getUsername());
     }
 }
