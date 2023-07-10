@@ -1,16 +1,22 @@
 package com.br.supercevaja.Super.CevaJa.service;
 
 
+import com.br.supercevaja.Super.CevaJa.dto.loginDto.LoginDto;
+import com.br.supercevaja.Super.CevaJa.dto.loginDto.LoginResponse;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioEditDto;
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
+import com.br.supercevaja.Super.CevaJa.model.Login;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.repository.UsuarioRepository;
+import com.br.supercevaja.Super.CevaJa.security.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -21,6 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UsuarioService {
 
+    private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
     private final ObjectMapper objectMapper;
 
@@ -32,6 +39,8 @@ public class UsuarioService {
         }
         Usuario usuarioEntrada = objectMapper.convertValue(usuarioCreateDto, Usuario.class);
         usuarioEntrada.setAtivo(true);
+        usuarioEntrada.setSenha(passwordEncoder.encode(usuarioCreateDto.getSenha()));
+        usuarioEntrada.setRole("ROLE_USER");
         Usuario usuarioRetorno = usuarioRepository.save(usuarioEntrada);
         return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);
     }
@@ -87,5 +96,6 @@ public class UsuarioService {
         }
         return objectMapper.convertValue(usuario, UsuarioDto.class);
     }
+
 }
 

@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /cevaja-db-poc
+    context-path: /supercevaja
   error:
     include-message: always
   port: 8081

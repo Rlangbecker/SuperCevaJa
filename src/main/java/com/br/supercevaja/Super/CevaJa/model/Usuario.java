@@ -1,5 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,9 @@ public class Usuario {
 
     @Column
     private Boolean ativo;
+
+    @Column
+    private String role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
     private List<Pedido> pedidos;
