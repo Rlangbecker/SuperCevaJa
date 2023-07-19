@@ -13,7 +13,6 @@ public class UsuarioDto{
     private String sobrenome;
     private String cpf;
     private LocalDate dataNascimento;
-    private String role;
 
 
 }

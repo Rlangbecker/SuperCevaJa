@@ -1,5 +1,9 @@
 package com.br.supercevaja.Super.CevaJa.security;
 
+import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
+import com.br.supercevaja.Super.CevaJa.model.Cargo;
+import com.br.supercevaja.Super.CevaJa.model.Usuario;
+import com.br.supercevaja.Super.CevaJa.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -21,6 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +34,16 @@ public class JwtUtils {
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final String ROLE_CLAIM = "USER";
 
+    private final UsuarioService usuarioService;
 
-    public static String generateToken(String username) throws NoSuchAlgorithmException {
+
+    public String generateToken(String username) throws NoSuchAlgorithmException, RegraDeNegocioException {
+
+        Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
+
+        List<String> cargos = usuario.getCargos().stream()
+                .map(Cargo::getAuthority)
+                .toList();
 
         KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
         SecretKey secretKey = keyGenerator.generateKey();
@@ -44,7 +57,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject(username)
-                .claim(ROLE_CLAIM, "USER")
+                .claim(ROLE_CLAIM, cargos)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(SignatureAlgorithm.HS256, key)
@@ -84,7 +97,7 @@ public class JwtUtils {
 //        return null;
 //    }
 
-    public Authentication validateToken(String token) {
+    public UsernamePasswordAuthenticationToken validateToken(String token) {
         token = token.replace("Bearer ", "");
         byte[] keyBytes = SECRET_KEY.getEncoded();
         SecretKey key = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());

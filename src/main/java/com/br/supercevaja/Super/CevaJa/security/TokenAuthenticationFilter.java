@@ -17,27 +17,27 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final String BEARER = "Bearer ";
 
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-//            throws ServletException, IOException {
-//        String tokenFromHeader = getTokenFromHeader(request);
-//        UsernamePasswordAuthenticationToken user = jwtUtils.validateToken(tokenFromHeader);
-//        SecurityContextHolder.getContext().setAuthentication(user);
-//        filterChain.doFilter(request, response);
-//    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String tokenFromHeader = getTokenFromHeader(request);
-        if (tokenFromHeader != null) {
-            Authentication authentication = jwtUtils.validateToken(tokenFromHeader);
-            if (authentication != null) {
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-        }
+        UsernamePasswordAuthenticationToken user = jwtUtils.validateToken(tokenFromHeader);
+        SecurityContextHolder.getContext().setAuthentication(user);
         filterChain.doFilter(request, response);
     }
+
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+//            throws ServletException, IOException {
+//        String tokenFromHeader = getTokenFromHeader(request);
+//        if (tokenFromHeader != null) {
+//            Authentication authentication = jwtUtils.validateToken(tokenFromHeader);
+//            if (authentication != null) {
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+//        }
+//        filterChain.doFilter(request, response);
+//    }
 
 
 

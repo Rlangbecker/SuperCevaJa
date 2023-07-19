@@ -22,6 +22,8 @@ import java.security.NoSuchAlgorithmException;
 public class AuthController {
 
     public final AuthenticationManager authenticationManager;
+
+    private final JwtUtils jwtUtils;
     @PostMapping
     public String logar(@RequestBody LoginDto loginDto) throws RegraDeNegocioException, NoSuchAlgorithmException, AccessDeniedException {
 
@@ -37,6 +39,6 @@ public class AuthController {
             throw new AccessDeniedException("Usuário não tem permissão para acessar este recurso.");
         }
 
-      return JwtUtils.generateToken(loginDto.getUsername());
+      return jwtUtils.generateToken(loginDto.getUsername());
     }
 }

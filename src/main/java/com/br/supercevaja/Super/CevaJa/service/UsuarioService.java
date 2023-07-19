@@ -1,25 +1,22 @@
 package com.br.supercevaja.Super.CevaJa.service;
 
 
-import com.br.supercevaja.Super.CevaJa.dto.loginDto.LoginDto;
-import com.br.supercevaja.Super.CevaJa.dto.loginDto.LoginResponse;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioEditDto;
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
-import com.br.supercevaja.Super.CevaJa.model.Login;
+import com.br.supercevaja.Super.CevaJa.model.Cargo;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
+import com.br.supercevaja.Super.CevaJa.repository.CargoRepository;
 import com.br.supercevaja.Super.CevaJa.repository.UsuarioRepository;
-import com.br.supercevaja.Super.CevaJa.security.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -29,6 +26,8 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
+
+    private final CargoRepository cargoRepository;
     private final ObjectMapper objectMapper;
 
 
@@ -37,10 +36,14 @@ public class UsuarioService {
         if (buscarPorUsername(usuarioCreateDto.getUsername())) {
             throw new RegraDeNegocioException("Username já está em uso, por favor escolha outro");
         }
+        Cargo cargo=cargoRepository.findCargoByNome("ROLE_USER");
+        Set<Cargo> cargos = new HashSet<>();
+        cargos.add(cargo);
+
         Usuario usuarioEntrada = objectMapper.convertValue(usuarioCreateDto, Usuario.class);
         usuarioEntrada.setAtivo(true);
         usuarioEntrada.setSenha(passwordEncoder.encode(usuarioCreateDto.getSenha()));
-        usuarioEntrada.setRole("ROLE_USER");
+        usuarioEntrada.setCargos(cargos);
         Usuario usuarioRetorno = usuarioRepository.save(usuarioEntrada);
         return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);
     }
@@ -91,7 +94,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new RegraDeNegocioException("Usuario com este username não encontrado!"));
 
         Long idade = ChronoUnit.YEARS.between(LocalDate.now(), usuario.getDataNascimento());
-        if (idade > 18) {
+        if (idade < 18) {
             throw new RegraDeNegocioException("Não é possível adicionar um pedido para um Usuário menor de idade!");
         }
         return objectMapper.convertValue(usuario, UsuarioDto.class);
@@ -99,7 +102,7 @@ public class UsuarioService {
 
     public Usuario buscarUsuarioPorUsername(String username) throws RegraDeNegocioException {
         return usuarioRepository.findByUsername(username)
-                .orElseThrow(()->new RegraDeNegocioException("Usuario com este username não encontrado!"));
+                .orElseThrow(() -> new RegraDeNegocioException("Usuario com este username não encontrado!"));
     }
 
 }

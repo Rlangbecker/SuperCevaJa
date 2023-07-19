@@ -24,13 +24,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET,"/h2-console/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/supercevaja/api/v1/usuarios").permitAll()
-                .requestMatchers("/supercevaja/api/v1/auth").permitAll()
-                .requestMatchers("/supercevaja/api/v1/usuarios/**").permitAll()
-                .requestMatchers("/supercevaja/api/v1/cervejas/**").permitAll()
-                .requestMatchers("/supercevaja/api/v1/pedidos/**").permitAll()
-                .requestMatchers("/supercevaja/h2-console/**").permitAll()
-                .requestMatchers("/supercevaja/**").permitAll()
+                .requestMatchers(HttpMethod.POST,"/supercevaja/api/v1/auth").permitAll()
+                .requestMatchers(HttpMethod.GET,"/supercevaja/api/v1/usuarios/**").hasAuthority("ROLE_USER")
+                .requestMatchers(HttpMethod.GET,"/supercevaja/api/v1/cervejas/**").hasAuthority("ROLE_USER")
+                .requestMatchers(HttpMethod.POST,"/supercevaja/api/v1/pedidos/**").hasAuthority("ROLE_USER")
                 .anyRequest().authenticated();
 
         return http.build();
