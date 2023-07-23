@@ -47,7 +47,7 @@ public class CervejaService {
        return objectMapper.convertValue(cerveja,CervejaDto.class);
     }
 
-    public BigDecimal calcularValorTotal(CervejaCreatePedidoDto cervejaCreatePedidoDto) throws Exception {
+    public BigDecimal calcularValorTotal(CervejaCreatePedidoDto cervejaCreatePedidoDto) throws RegraDeNegocioException {
        Cerveja cerveja = cervejaRepository.findCervejaByNome(cervejaCreatePedidoDto.getNome())
                .orElseThrow(()-> new RegraDeNegocioException("Cerveja não cadastrada no sistema: " + cervejaCreatePedidoDto.getNome()));
 
@@ -56,9 +56,6 @@ public class CervejaService {
         return valorTotal;
     }
 
-    //    public BigDecimal calcularValorTotalLista(List<Cerveja> cervejas){
-//       BigDecimal cervejas.stream()
-//    }
 
     public CervejaDto buscarPorId(Integer id) throws RegraDeNegocioException {
         Cerveja cervejaReturn = cervejaRepository.findById(id).
@@ -76,9 +73,9 @@ public class CervejaService {
         return cevaReturn;
     }
 
-    public void deletarPorNome(String nomeCerveja) throws Exception {
+    public void deletarPorNome(String nomeCerveja) throws RegraDeNegocioException {
        Cerveja cervejaRetorno = cervejaRepository.findCervejaByNome(nomeCerveja)
-                .orElseThrow(() -> new Exception("Cerveja com o nome " + nomeCerveja + " não encontrado"));
+                .orElseThrow(() -> new RegraDeNegocioException("Cerveja com o nome " + nomeCerveja + " não encontrado"));
         cervejaRetorno.setAtivo(false);
         cervejaRepository.save(cervejaRetorno);
     }

@@ -35,8 +35,9 @@ public class UsuarioService {
 
     public UsuarioDto criarUsuario(UsuarioCreateDto usuarioCreateDto) throws RegraDeNegocioException {
 
-        buscarPorUsername(usuarioCreateDto.getUsername());
-
+        if (buscarPorUsername(usuarioCreateDto.getUsername())) {
+            throw new RegraDeNegocioException("Username já está em uso, por favor escolha outro");
+        }
         Usuario usuarioEntrada = objectMapper.convertValue(usuarioCreateDto, Usuario.class);
         usuarioEntrada.setAtivo(true);
         usuarioEntrada.setSenha(passwordEncoder.encode(usuarioCreateDto.getSenha()));

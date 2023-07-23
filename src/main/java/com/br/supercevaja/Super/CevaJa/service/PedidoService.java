@@ -78,7 +78,7 @@ public class PedidoService {
     }
 
 
-    public BigDecimal retornarValorComDesconto(CervejaCreatePedidoDto cervejaCreatePedidoDto) throws Exception {
+    public BigDecimal retornarValorComDesconto(CervejaCreatePedidoDto cervejaCreatePedidoDto) throws RegraDeNegocioException {
         BigDecimal valorTotal = cervejaService.calcularValorTotal(cervejaCreatePedidoDto);
 
         if (cervejaCreatePedidoDto.getQuantidade() > 10) {
