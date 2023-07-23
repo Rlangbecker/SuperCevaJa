@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class PedidoCreateDto {
     @NotBlank(message = "O campo Username não deve ser vazio ou nulo.")
-    @Schema(description = "Username do clliente",example = "rlangbecker")
+    @Schema(description = "Username do cliente",example = "rlangbecker")
     private String usernameUsuario;
 
     @NotNull

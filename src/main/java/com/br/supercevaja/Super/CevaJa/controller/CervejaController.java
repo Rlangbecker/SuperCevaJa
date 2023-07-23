@@ -21,7 +21,7 @@ public class CervejaController implements CervejaControllerInterface {
 
     @PostMapping
     public ResponseEntity<CervejaDto> cadastrarCerveja(@RequestBody CervejaCreateDto cervejaCreateDto) throws RegraDeNegocioException {
-        return new ResponseEntity<>(cervejaService.cadastrarCerveja(cervejaCreateDto), HttpStatus.OK);
+        return new ResponseEntity<>(cervejaService.cadastrarCerveja(cervejaCreateDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{idCerveja}")

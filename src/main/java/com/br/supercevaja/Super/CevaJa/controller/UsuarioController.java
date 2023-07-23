@@ -42,7 +42,7 @@ public class UsuarioController implements UsuarioControllerInterface {
 
     @PutMapping("/{idUsuario}")
     public ResponseEntity<UsuarioDto> editarPorId(@PathParam("idUsuario") Integer idUsuario, @RequestBody UsuarioEditDto usuarioEditDto) throws RegraDeNegocioException {
-        return new ResponseEntity<>(usuarioService.alterarPorUserId(idUsuario,usuarioEditDto),HttpStatus.OK);
+        return new ResponseEntity<>(usuarioService.alterarPorUserId(idUsuario,usuarioEditDto),HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{username}")

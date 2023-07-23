@@ -22,7 +22,7 @@ public class PedidoController implements PedidoControllerInterface {
 
     @PostMapping
     public ResponseEntity<PedidoDto> criarPedido(@RequestBody PedidoCreateDto pedido) throws RegraDeNegocioException {
-        return new ResponseEntity<>(pedidoService.criarPedido(pedido), HttpStatus.OK);
+        return new ResponseEntity<>(pedidoService.criarPedido(pedido), HttpStatus.CREATED);
     }
 
 

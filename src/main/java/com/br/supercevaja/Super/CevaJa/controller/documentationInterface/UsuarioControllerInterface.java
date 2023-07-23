@@ -19,7 +19,7 @@ public interface UsuarioControllerInterface {
     @Operation(summary = "Cadastrar novo usuario", description = "Cadastra o usuário no banco de dados")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Criação de cliente aceita!"),
+                    @ApiResponse(responseCode = "201", description = "Criação de cliente aceita!"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
@@ -49,7 +49,7 @@ public interface UsuarioControllerInterface {
     @Operation(summary = "Editar usuário", description = "Edita o usuário  e salva informaçõs no banco de dados pelo Id informado")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Edição de usuário feita"),
+                    @ApiResponse(responseCode = "204", description = "Edição de usuário feita"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
@@ -59,7 +59,7 @@ public interface UsuarioControllerInterface {
     @Operation(summary = "Deletar usuário", description = "Deleta o usuário no banco de dados pelo Username informado")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Delete de usuário feito"),
+                    @ApiResponse(responseCode = "202", description = "Delete de usuário feito"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
