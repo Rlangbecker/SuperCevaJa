@@ -5,7 +5,6 @@ import com.br.supercevaja.Super.CevaJa.dto.cervejaDto.CervejaCreatePedidoDto;
 import com.br.supercevaja.Super.CevaJa.dto.cervejaDto.CervejaDto;
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
 import com.br.supercevaja.Super.CevaJa.model.Cerveja;
-import com.br.supercevaja.Super.CevaJa.model.integration.TempsResponse;
 import com.br.supercevaja.Super.CevaJa.repository.CervejaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -41,15 +40,15 @@ public class CervejaService {
         return cervejaRepository.findCervejaByNome(nomeCerveja).isPresent();
     }
 
-    public CervejaDto buscarPorNomeDto(String nomeCerveja) throws RegraDeNegocioException{
-       Cerveja cerveja = cervejaRepository.findCervejaByNome(nomeCerveja)
-                .orElseThrow(()-> new RegraDeNegocioException("Cerveja com este nome não consta no banco!"));
-       return objectMapper.convertValue(cerveja,CervejaDto.class);
+    public CervejaDto buscarPorNomeDto(String nomeCerveja) throws RegraDeNegocioException {
+        Cerveja cerveja = cervejaRepository.findCervejaByNome(nomeCerveja)
+                .orElseThrow(() -> new RegraDeNegocioException("Cerveja com este nome não consta no banco!"));
+        return objectMapper.convertValue(cerveja, CervejaDto.class);
     }
 
     public BigDecimal calcularValorTotal(CervejaCreatePedidoDto cervejaCreatePedidoDto) throws RegraDeNegocioException {
-       Cerveja cerveja = cervejaRepository.findCervejaByNome(cervejaCreatePedidoDto.getNome())
-               .orElseThrow(()-> new RegraDeNegocioException("Cerveja não cadastrada no sistema: " + cervejaCreatePedidoDto.getNome()));
+        Cerveja cerveja = cervejaRepository.findCervejaByNome(cervejaCreatePedidoDto.getNome())
+                .orElseThrow(() -> new RegraDeNegocioException("Cerveja não cadastrada no sistema: " + cervejaCreatePedidoDto.getNome()));
 
         BigDecimal valorTotal = BigDecimal.valueOf(cervejaCreatePedidoDto.getQuantidade())
                 .multiply(cerveja.getValor());
@@ -74,17 +73,17 @@ public class CervejaService {
     }
 
     public void deletarPorNome(String nomeCerveja) throws RegraDeNegocioException {
-       Cerveja cervejaRetorno = cervejaRepository.findCervejaByNome(nomeCerveja)
+        Cerveja cervejaRetorno = cervejaRepository.findCervejaByNome(nomeCerveja)
                 .orElseThrow(() -> new RegraDeNegocioException("Cerveja com o nome " + nomeCerveja + " não encontrado"));
         cervejaRetorno.setAtivo(false);
         cervejaRepository.save(cervejaRetorno);
     }
 
 
-        public List<CervejaDto> retornarTiposCerveja () {
-            return cervejaRepository.findAll().stream()
-                    .map(cerveja -> objectMapper.convertValue(cerveja, CervejaDto.class))
-                    .collect(Collectors.toList());
-        }
-
+    public List<CervejaDto> retornarTiposCerveja() {
+        return cervejaRepository.findAll().stream()
+                .map(cerveja -> objectMapper.convertValue(cerveja, CervejaDto.class))
+                .collect(Collectors.toList());
     }
+
+}

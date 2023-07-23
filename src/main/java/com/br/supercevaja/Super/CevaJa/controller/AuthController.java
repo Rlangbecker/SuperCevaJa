@@ -43,6 +43,6 @@ public class AuthController implements AuthControllerInterface {
             throw new AccessDeniedException("Usuário não tem permissão para acessar este recurso.");
         }
 
-        return new ResponseEntity<>(jwtUtils.generateToken(loginDto.getUsername()),HttpStatus.OK);
+        return new ResponseEntity<>(jwtUtils.generateToken(loginDto.getUsername()), HttpStatus.OK);
     }
 }

@@ -24,17 +24,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -88,7 +84,7 @@ public class PedidoServiceTest {
         when(pedidoRepository.save(any()))
                 .thenReturn(getPedido());
 
-      PedidoDto pedidoDto = pedidoService.criarPedido(getPedidoCreteDto());
+        PedidoDto pedidoDto = pedidoService.criarPedido(getPedidoCreteDto());
 
 
         assertNotNull(pedidoDto);
@@ -115,7 +111,7 @@ public class PedidoServiceTest {
 //
 //    }
 
-    private static PedidoCreateDto getPedidoCreteDto(){
+    private static PedidoCreateDto getPedidoCreteDto() {
 
         PedidoCreateDto pedidoCreateDto = new PedidoCreateDto();
         CervejaCreatePedidoDto cervejaCreatePedidoDto1 = new CervejaCreatePedidoDto();
@@ -130,7 +126,7 @@ public class PedidoServiceTest {
         return pedidoCreateDto;
     }
 
-    private static PedidoDto getPedidoDto(){
+    private static PedidoDto getPedidoDto() {
 
         PedidoDto pedidoDto = new PedidoDto();
 
@@ -144,7 +140,7 @@ public class PedidoServiceTest {
         return pedidoDto;
     }
 
-    private static Pedido getPedido(){
+    private static Pedido getPedido() {
 
         Pedido pedido = new Pedido();
 

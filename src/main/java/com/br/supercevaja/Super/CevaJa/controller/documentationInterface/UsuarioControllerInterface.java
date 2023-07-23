@@ -44,7 +44,7 @@ public interface UsuarioControllerInterface {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-     ResponseEntity<UsuarioDto> buscarPorId(@PathParam("idUsuario") Integer id) throws RegraDeNegocioException ;
+    ResponseEntity<UsuarioDto> buscarPorId(@PathParam("idUsuario") Integer id) throws RegraDeNegocioException;
 
     @Operation(summary = "Editar usuário", description = "Edita o usuário  e salva informaçõs no banco de dados pelo Id informado")
     @ApiResponses(
@@ -54,7 +54,7 @@ public interface UsuarioControllerInterface {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-   ResponseEntity<UsuarioDto> editarPorId(@PathParam("idUsuario") Integer idUsuario, @RequestBody UsuarioEditDto usuarioEditDto) throws RegraDeNegocioException;
+    ResponseEntity<UsuarioDto> editarPorId(@PathParam("idUsuario") Integer idUsuario, @RequestBody UsuarioEditDto usuarioEditDto) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar usuário", description = "Deleta o usuário no banco de dados pelo Username informado")
     @ApiResponses(
@@ -64,6 +64,6 @@ public interface UsuarioControllerInterface {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    ResponseEntity deletar(@PathVariable("username") String username) throws RegraDeNegocioException ;
+    ResponseEntity deletar(@PathVariable("username") String username) throws RegraDeNegocioException;
 
 }

@@ -30,13 +30,13 @@ public class CervejaController implements CervejaControllerInterface {
     }
 
     @GetMapping
-    public ResponseEntity<List<CervejaDto>> retornarTiposCeva(){
-        return new ResponseEntity<>(cervejaService.retornarTiposCerveja(),HttpStatus.OK);
+    public ResponseEntity<List<CervejaDto>> retornarTiposCeva() {
+        return new ResponseEntity<>(cervejaService.retornarTiposCerveja(), HttpStatus.OK);
     }
 
     @PutMapping("/tipo/{nomeCerveja}")
     public ResponseEntity<CervejaDto> alterarPorNome(@PathVariable("nomeCerveja") String nomeCerveja, @RequestBody CervejaCreateDto cervejaCreateDto) throws RegraDeNegocioException {
-        return new ResponseEntity<>(cervejaService.alterarPorNome(nomeCerveja,cervejaCreateDto),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(cervejaService.alterarPorNome(nomeCerveja, cervejaCreateDto), HttpStatus.NO_CONTENT);
 
     }
 

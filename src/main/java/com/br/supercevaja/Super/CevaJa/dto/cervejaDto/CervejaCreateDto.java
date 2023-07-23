@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class CervejaCreateDto {
 
     @NotBlank(message = "O campo NOME não deve ser vazio ou nulo.")
-    @Schema(description = "Nome da cerveja",example = "Novo nome")
+    @Schema(description = "Nome da cerveja", example = "Novo nome")
     private String nome;
 
     @Schema(description = "Valor da cerveja")

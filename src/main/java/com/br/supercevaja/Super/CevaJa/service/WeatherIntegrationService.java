@@ -22,7 +22,7 @@ public class WeatherIntegrationService {
 
     public TempsResponse buscarTemperaturaAtual() {
         String urlCompleta = this.uri;
-        WeatherResponse weatherResponse =  this.restTemplate.getForObject(urlCompleta, WeatherResponse.class);
+        WeatherResponse weatherResponse = this.restTemplate.getForObject(urlCompleta, WeatherResponse.class);
         TempsResponse tempsResponse = weatherResponse.getCurrent();
         return tempsResponse;
     }

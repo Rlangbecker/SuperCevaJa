@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthController implements HealthControllerInterface {
 
     @GetMapping
-    public ResponseEntity<String> health(){
+    public ResponseEntity<String> health() {
         return ResponseEntity.ok("Serviço rodando!");
     }
 }

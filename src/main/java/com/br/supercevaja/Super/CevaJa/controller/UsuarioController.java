@@ -31,8 +31,8 @@ public class UsuarioController implements UsuarioControllerInterface {
     }
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDto>> buscarTodosUsuario(){
-        return new ResponseEntity<>(usuarioService.buscarTodosUsuarios(),HttpStatus.OK);
+    public ResponseEntity<List<UsuarioDto>> buscarTodosUsuario() {
+        return new ResponseEntity<>(usuarioService.buscarTodosUsuarios(), HttpStatus.OK);
     }
 
     @GetMapping("/{idUsuario}")
@@ -42,7 +42,7 @@ public class UsuarioController implements UsuarioControllerInterface {
 
     @PutMapping("/{idUsuario}")
     public ResponseEntity<UsuarioDto> editarPorId(@PathParam("idUsuario") Integer idUsuario, @RequestBody UsuarioEditDto usuarioEditDto) throws RegraDeNegocioException {
-        return new ResponseEntity<>(usuarioService.alterarPorUserId(idUsuario,usuarioEditDto),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(usuarioService.alterarPorUserId(idUsuario, usuarioEditDto), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{username}")

@@ -1,20 +1,14 @@
 package com.br.supercevaja.Super.CevaJa.security;
 
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
-import com.br.supercevaja.Super.CevaJa.model.Cargo;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.service.UsuarioService;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.KeyGenerator;

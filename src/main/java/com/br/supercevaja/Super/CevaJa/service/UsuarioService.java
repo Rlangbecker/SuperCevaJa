@@ -5,7 +5,6 @@ import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioEditDto;
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
-import com.br.supercevaja.Super.CevaJa.model.Cargo;
 import com.br.supercevaja.Super.CevaJa.model.Usuario;
 import com.br.supercevaja.Super.CevaJa.repository.CargoRepository;
 import com.br.supercevaja.Super.CevaJa.repository.UsuarioRepository;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
