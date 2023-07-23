@@ -1,5 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.controller;
 
+import com.br.supercevaja.Super.CevaJa.controller.documentationInterface.CervejaControllerInterface;
 import com.br.supercevaja.Super.CevaJa.dto.cervejaDto.CervejaCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.cervejaDto.CervejaDto;
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
@@ -14,17 +15,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/supercevaja/api/v1/cervejas")
-public class CervejaController {
+public class CervejaController implements CervejaControllerInterface {
 
     private final CervejaService cervejaService;
 
     @PostMapping
-    public ResponseEntity<CervejaDto> cadastrarCerveja(@RequestBody CervejaCreateDto cervejaCreateDto) throws Exception {
+    public ResponseEntity<CervejaDto> cadastrarCerveja(@RequestBody CervejaCreateDto cervejaCreateDto) throws RegraDeNegocioException {
         return new ResponseEntity<>(cervejaService.cadastrarCerveja(cervejaCreateDto), HttpStatus.OK);
     }
 
     @GetMapping("/{idCerveja}")
-    public ResponseEntity<CervejaDto> buscarPorId(@PathVariable("idCerveja") Integer id) throws Exception {
+    public ResponseEntity<CervejaDto> buscarPorId(@PathVariable("idCerveja") Integer id) throws RegraDeNegocioException {
         return new ResponseEntity<>(cervejaService.buscarPorId(id), HttpStatus.OK);
     }
 

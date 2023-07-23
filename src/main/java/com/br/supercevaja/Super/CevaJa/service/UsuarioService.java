@@ -30,20 +30,17 @@ public class UsuarioService {
     private final CargoRepository cargoRepository;
     private final ObjectMapper objectMapper;
 
+    private final Integer ROLE_USER = 1;
+
 
     public UsuarioDto criarUsuario(UsuarioCreateDto usuarioCreateDto) throws RegraDeNegocioException {
 
-        if (buscarPorUsername(usuarioCreateDto.getUsername())) {
-            throw new RegraDeNegocioException("Username já está em uso, por favor escolha outro");
-        }
-        Cargo cargo=cargoRepository.findCargoByNome("ROLE_USER");
-        Set<Cargo> cargos = new HashSet<>();
-        cargos.add(cargo);
+        buscarPorUsername(usuarioCreateDto.getUsername());
 
         Usuario usuarioEntrada = objectMapper.convertValue(usuarioCreateDto, Usuario.class);
         usuarioEntrada.setAtivo(true);
         usuarioEntrada.setSenha(passwordEncoder.encode(usuarioCreateDto.getSenha()));
-        usuarioEntrada.setCargos(cargos);
+        usuarioEntrada.setCargo(cargoRepository.findById(ROLE_USER).get());
         Usuario usuarioRetorno = usuarioRepository.save(usuarioEntrada);
         return objectMapper.convertValue(usuarioRetorno, UsuarioDto.class);
     }
@@ -94,7 +91,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new RegraDeNegocioException("Usuario com este username não encontrado!"));
 
         Long idade = ChronoUnit.YEARS.between(LocalDate.now(), usuario.getDataNascimento());
-        if (idade < 18) {
+        if (idade > 18) {
             throw new RegraDeNegocioException("Não é possível adicionar um pedido para um Usuário menor de idade!");
         }
         return objectMapper.convertValue(usuario, UsuarioDto.class);

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,17 +44,14 @@ public class Usuario implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
     private List<Pedido> pedidos;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "USUARIO_CARGO",
-            joinColumns = @JoinColumn(name = "ID_USUARIO"),
-            inverseJoinColumns = @JoinColumn(name = "ID_CARGO")
-    )
-    private Set<Cargo> cargos;
+    @ManyToOne
+    @JoinColumn(name = "ID_CARGO", referencedColumnName = "ID_CARGO")
+    private Cargo cargo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<Cargo> cargos = new HashSet<>();
+        cargos.add(cargo);
         return cargos;
     }
 

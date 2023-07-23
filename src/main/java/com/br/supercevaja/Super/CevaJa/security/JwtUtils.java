@@ -32,7 +32,7 @@ import java.util.List;
 public class JwtUtils {
 
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final String ROLE_CLAIM = "USER";
+    private static final String ROLE_CLAIM = "CARGO";
 
     private final UsuarioService usuarioService;
 
@@ -41,9 +41,12 @@ public class JwtUtils {
 
         Usuario usuario = usuarioService.buscarUsuarioPorUsername(username);
 
-        List<String> cargos = usuario.getCargos().stream()
-                .map(Cargo::getAuthority)
-                .toList();
+//        List<String> cargo = usuario.getCargos().stream()
+//                .map(Cargo::getAuthority)
+//                .toList();
+
+        List<String> cargo = new ArrayList<>();
+        cargo.add(usuario.getCargo().getAuthority());
 
         KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
         SecretKey secretKey = keyGenerator.generateKey();
@@ -57,7 +60,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject(username)
-                .claim(ROLE_CLAIM, cargos)
+                .claim(ROLE_CLAIM, cargo)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(SignatureAlgorithm.HS256, key)
@@ -77,50 +80,44 @@ public class JwtUtils {
         return claims.getSubject();
     }
 
-//    public UsernamePasswordAuthenticationToken validateToken(String token) {
-//
-//        token = token.replace("Bearer ", "");
-//        byte[] keyBytes = SECRET_KEY.getEncoded();
-//        SecretKey key = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
-//        if (token != null) {
-//            Claims body = Jwts.parser()
-//                    .setSigningKey(key)
-//                    .parseClaimsJws(token.replace("Bearer ", ""))
-//                    .getBody();
-//            String user = body.get(Claims.ID, String.class);
-//            if (user != null) {
-//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-//                        new UsernamePasswordAuthenticationToken(user, null, null);
-//                return usernamePasswordAuthenticationToken;
-//            }
-//        }
-//        return null;
-//    }
-
     public UsernamePasswordAuthenticationToken validateToken(String token) {
+
         token = token.replace("Bearer ", "");
         byte[] keyBytes = SECRET_KEY.getEncoded();
         SecretKey key = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
         if (token != null) {
-            try {
-                Claims body = Jwts.parser()
-                        .setSigningKey(key)
-                        .parseClaimsJws(token)
-                        .getBody();
-                String user = body.getSubject();
-                if (user != null) {
-                    UserDetails userDetails = new User(user, "", new ArrayList<>());
-                    return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            Claims body = Jwts.parser()
+                    .setSigningKey(key)
+                    .parseClaimsJws(token.replace("Bearer ", ""))
+                    .getBody();
+            String user = body.get(Claims.ID, String.class);
+            if (user != null) {
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                        new UsernamePasswordAuthenticationToken(user, null, null);
+                return usernamePasswordAuthenticationToken;
             }
         }
         return null;
     }
 
-
-
-
+//    public UsernamePasswordAuthenticationToken validateToken(String token) {
+//        token = token.replace("Bearer ", "");
+//        byte[] keyBytes = SECRET_KEY.getEncoded();
+//        SecretKey key = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
+//        if (token != null) {
+//            return null;
+//        }
+//
+//        Claims body = Jwts.parser()
+//                .setSigningKey(key)
+//                .parseClaimsJws(token)
+//                .getBody();
+//        String user = body.getSubject();
+//        UserDetails userDetails = new User(user, "", new ArrayList<>());
+//        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//
+//
+//    }
+//
 
 }

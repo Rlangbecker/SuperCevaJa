@@ -1,9 +1,12 @@
 package com.br.supercevaja.Super.CevaJa.controller;
 
+import com.br.supercevaja.Super.CevaJa.controller.documentationInterface.AuthControllerInterface;
 import com.br.supercevaja.Super.CevaJa.dto.loginDto.LoginDto;
 import com.br.supercevaja.Super.CevaJa.exception.RegraDeNegocioException;
 import com.br.supercevaja.Super.CevaJa.security.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,13 +22,14 @@ import java.security.NoSuchAlgorithmException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/supercevaja/api/v1/auth")
-public class AuthController {
+public class AuthController implements AuthControllerInterface {
 
     public final AuthenticationManager authenticationManager;
 
     private final JwtUtils jwtUtils;
+
     @PostMapping
-    public String logar(@RequestBody LoginDto loginDto) throws RegraDeNegocioException, NoSuchAlgorithmException, AccessDeniedException {
+    public ResponseEntity<String> logar(@RequestBody LoginDto loginDto) throws RegraDeNegocioException, NoSuchAlgorithmException, AccessDeniedException {
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(
@@ -33,12 +37,12 @@ public class AuthController {
                         loginDto.getSenha()
                 );
 
-        Authentication authentication= authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         if (!userDetails.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_USER"))) {
             throw new AccessDeniedException("Usuário não tem permissão para acessar este recurso.");
         }
 
-      return jwtUtils.generateToken(loginDto.getUsername());
+        return new ResponseEntity<>(jwtUtils.generateToken(loginDto.getUsername()),HttpStatus.OK);
     }
 }

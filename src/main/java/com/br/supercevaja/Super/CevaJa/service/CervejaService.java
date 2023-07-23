@@ -60,9 +60,9 @@ public class CervejaService {
 //       BigDecimal cervejas.stream()
 //    }
 
-    public CervejaDto buscarPorId(Integer id) throws Exception {
+    public CervejaDto buscarPorId(Integer id) throws RegraDeNegocioException {
         Cerveja cervejaReturn = cervejaRepository.findById(id).
-                orElseThrow(() -> new Exception("Id não encontrado"));
+                orElseThrow(() -> new RegraDeNegocioException("Id não encontrado"));
         CervejaDto cervejaDtoRetorno = objectMapper.convertValue(cervejaReturn, CervejaDto.class);
         return cervejaDtoRetorno;
     }

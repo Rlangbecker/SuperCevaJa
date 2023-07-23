@@ -1,8 +1,11 @@
 package com.br.supercevaja.Super.CevaJa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -10,6 +13,9 @@ import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Entity
 @Table(name = "CARGO")
 public class Cargo implements GrantedAuthority {
@@ -22,12 +28,7 @@ public class Cargo implements GrantedAuthority {
     private String nome;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "USUARIO_CARGO",
-            joinColumns = @JoinColumn(name = "ID_CARGO"),
-            inverseJoinColumns = @JoinColumn(name = "ID_USUARIO")
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cargo")
     private Set<Usuario> usuarios;
 
     @Override

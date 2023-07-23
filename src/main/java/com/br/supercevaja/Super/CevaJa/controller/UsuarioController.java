@@ -1,5 +1,6 @@
 package com.br.supercevaja.Super.CevaJa.controller;
 
+import com.br.supercevaja.Super.CevaJa.controller.documentationInterface.UsuarioControllerInterface;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioCreateDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioDto;
 import com.br.supercevaja.Super.CevaJa.dto.usuarioDto.UsuarioEditDto;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/supercevaja/api/v1/usuarios")
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerInterface {
 
     private final UsuarioService usuarioService;
 
